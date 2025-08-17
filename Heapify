@@ -1,0 +1,21 @@
+void heapify(int arr[],int n,int i){
+  int index = i;
+  int leftindex = 2*index;
+  int rightindex = 2*index + 1;
+
+  int largest = index;
+
+  if(leftindex < n && arr[largest] < arr[leftindex]){
+    largest = leftindex;
+  }
+  if(rightindex < n && arr[largest] < arr[rightindex]){
+    largest = rightindex;
+  }
+
+  if(largest != index){
+    swap(arr[index] , arr[largest]);
+    index = largest;
+    heapify(arr,n,index);
+  }
+
+}
