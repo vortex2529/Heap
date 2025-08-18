@@ -1,0 +1,56 @@
+
+// Brute force
+
+class Solution {
+  public:
+    int kthSmallest(vector<int> &arr, int k) {
+        sort(arr.begin(),arr.end());
+        return arr[k-1];
+    }
+};
+
+// Better using min Heap
+
+class Solution {
+  public:
+  
+    int kthSmallest(vector<int> &arr, int k) {
+        priority_queue<int,vector<int>,greater<int>> pq;
+        
+        for(auto e:arr) pq.push(e);
+        
+        for(int i=0;i<k-1;i++){
+            pq.pop();
+        }
+        
+        return pq.top();
+        
+    }
+};
+
+
+// Optimal using Max Heap
+
+
+class Solution {
+  public:
+  
+    int kthSmallest(vector<int> &arr, int k) {
+        priority_queue<int> pq;
+        
+        
+        for(int i=0;i<k;i++){
+            pq.push(arr[i]);
+        }
+        
+        for(int i=k;i<arr.size();i++){
+            if(arr[i] < pq.top()){
+                pq.pop();
+                pq.push(arr[i]);
+            }
+        }
+        
+        return pq.top();
+        
+    }
+};
