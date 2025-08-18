@@ -1,0 +1,48 @@
+class Solution {
+  public:
+    bool isCBT(Node* root){
+        if(!root) return true;
+        
+        queue<Node*> q;
+        q.push(root);
+        bool nullFound = false;
+        while(!q.empty()){
+            auto front = q.front();
+            q.pop();
+            
+            if(front == 0){
+                nullFound = true;
+            }
+            else{
+                if(nullFound) return false;
+                q.push(front->left);
+                q.push(front->right);
+                
+            }
+            
+        }
+        return true;
+    }
+    
+    pair<bool,int> hasMaxHeapProperty(Node* root){
+        if(!root) return {true,INT_MIN};
+        
+        if(!root->left && !root->right) return {true,root->data};
+        
+        auto left = hasMaxHeapProperty(root->left);
+        auto right = hasMaxHeapProperty(root->right);
+        
+        if(root->data > left.second && root->data > right.second && left.first && right.first){
+            return {true,root->data};
+        }
+        else{
+            return {false,INT_MIN};
+        }
+        
+        
+    }
+    
+    bool isHeap(Node* tree) {
+        return isCBT(tree) && hasMaxHeapProperty(tree).first;
+        
+    }
