@@ -29,6 +29,7 @@ void buildheap(int arr[],int n){
 }
 
 void heapsort(int arr[],int n){
+  buildheap(arr,n);
   while(n!=1){
     swap(arr[1],arr[n-1]);
     n--;
@@ -40,9 +41,9 @@ int main() {
   int arr[] = {-1,12,56,43,6,78,87,5,44,3,23,32};
   int n = 12;
 
-  buildheap(arr,n);
+  
 
-  cout<<"Printing Heap :"<<endl;
+  cout<<"Printing arr :"<<endl;
   for(auto i:arr) cout<<i<<" ";
   cout<<endl;
 
