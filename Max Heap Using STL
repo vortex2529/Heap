@@ -1,0 +1,34 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+
+int main() {
+  
+  // creating Max Heap
+  priority_queue<int> pq;
+
+  // insert
+  pq.push(3);
+  pq.push(6);
+  pq.push(9);
+  pq.push(4);
+  pq.push(8);
+
+
+  // top 
+  cout<<"Top element :"<<pq.top()<<endl;
+  // pop
+  pq.pop();
+
+  cout<<"Top element :"<<pq.top()<<endl;
+  pq.pop();
+
+
+  // size
+  cout<<"size :"<<pq.size()<<endl;
+
+  // empty
+  cout<<"empty or not: "<<pq.empty()<<endl;
+  
+  return 0;
+}
