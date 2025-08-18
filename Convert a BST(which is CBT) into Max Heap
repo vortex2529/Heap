@@ -1,0 +1,90 @@
+#include <iostream>
+#include <queue>
+using namespace std;
+
+class Node{
+    public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int _data):data(_data),left(NULL),right(NULL){}
+};
+
+Node* insertIntoBST(Node* root,int data){
+    if(!root){
+      // if first node
+      root = new Node(data);
+      return root;
+    }
+
+      // if not the first node
+    if(root->data > data){
+      // insert into left
+      root->left = insertIntoBST(root->left,data);
+    }
+    else{
+      // insert into right
+      root->right = insertIntoBST(root->right,data);
+    }
+
+    return root;
+}
+void takeInput(Node* &root){
+    int data;
+    cin>>data;
+    while(data != -1){
+      root = insertIntoBST(root,data);
+      cin>>data;
+    }
+}
+void LevelOrderTraversal_PrintLevelWise(Node* root){
+  queue<Node*> q;
+
+  q.push(root);
+  q.push(NULL);
+
+  while(!q.empty()){
+
+    Node* temp = q.front();
+    q.pop();
+    if(temp == NULL){
+      cout<<endl;
+      if(!q.empty()){
+        q.push(NULL);
+      }
+    }
+    else{
+      cout<<temp->data<<" ";
+      if(temp->left){
+        q.push(temp->left);
+      }
+      if(temp->right){
+        q.push(temp->right);
+      }
+    } 
+  }
+}
+
+void Inorder(Node* root,vector<int>&in){
+  if(!root) return;
+  Inorder(root->left,in);
+  in.push_back(root->data);
+  Inorder(root->right,in);
+}
+
+void convertBSTtoMaxHeap(Node* root,vector<int>&in,int &i){
+  if(!root) return;
+  convertBSTtoMaxHeap(root->left,in,i);
+  convertBSTtoMaxHeap(root->right,in,i);
+  root->data = in[i++];
+}
+int main() {
+  Node* root = 0;
+  takeInput(root);
+  vector<int> inorder;
+  Inorder(root,inorder);
+  int i = 0;
+  convertBSTtoMaxHeap(root,inorder,i);
+  return 0;
+}
