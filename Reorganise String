@@ -1,0 +1,59 @@
+class Node{
+    public:
+    char data;
+    int count;
+    Node(char d,int c):data(d),count(c){}
+};
+
+class compare{
+    public:
+    bool operator()(Node* a,Node* b){
+        return a->count < b->count;
+    }
+};
+
+class Solution {
+public:
+    string reorganizeString(string s) {
+        unordered_map<char,int> mp;
+        for(auto ch:s) mp[ch]++;
+        
+        priority_queue<Node*,vector<Node*>, compare> maxHeap;
+
+        for(auto e:mp){
+            maxHeap.push( new Node(e.first,e.second));
+        }
+
+
+        string ans= "";
+        while(maxHeap.size() > 1){
+            auto first = maxHeap.top();maxHeap.pop();
+            auto second = maxHeap.top();maxHeap.pop();
+
+            ans += first->data;
+            ans += second->data;
+
+            first->count--;
+            second->count--;
+            if(first->count != 0){
+                maxHeap.push(first);
+            }
+            if(second->count != 0){
+                maxHeap.push(second);
+            }
+        }
+
+        if(maxHeap.size() == 1){
+            auto top = maxHeap.top();
+            maxHeap.pop();
+
+            if(top->count > 1){
+                return "";
+            }    
+            ans += top->data;
+            
+        }
+
+        return ans;
+    }
+};
