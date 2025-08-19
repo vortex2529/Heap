@@ -1,0 +1,49 @@
+class Info{
+    public:
+    int data;
+    int row;
+    int col;
+    
+    Info(int val,int r,int c):data(val),row(r),col(c){}
+};
+
+class compare{
+    public:
+    bool operator()(Info * a,Info* b){
+        return a->data > b->data;
+    }
+};
+
+
+class Solution {
+  public:
+    
+    vector<int> mergeKArrays(vector<vector<int>> arr, int k) {
+        priority_queue<Info*,vector<Info*>,compare> pq;
+        
+        for(int i=0;i<k;i++){
+            Info* newinfo = new Info(arr[i][0],i,0);
+            pq.push(newinfo);
+        }
+        
+        vector<int> merged;
+        
+        while(!pq.empty()){
+            auto top = pq.top();
+            pq.pop();
+            
+            int topdata = top->data;
+            int toprow = top->row;
+            int topcol = top->col;
+            
+            merged.push_back(topdata);
+            
+            if(topcol + 1 < arr[toprow].size()){
+                Info* newInfo = new Info(arr[toprow][topcol+1],toprow,topcol+1);
+                pq.push(newInfo);
+            }
+        }
+        return merged;
+        
+    }
+};
