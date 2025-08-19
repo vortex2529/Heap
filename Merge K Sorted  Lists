@@ -1,0 +1,31 @@
+class compare{
+    public:
+
+    bool operator()(ListNode* a,ListNode* b){
+        return a->val > b->val;
+    }
+};
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        priority_queue<ListNode*,vector<ListNode*>,compare> pq;
+
+        for(auto node:lists){
+            if(node) pq.push(node);
+        }
+        ListNode* ansHead = new ListNode(INT_MIN);
+        ListNode* head = ansHead;
+        while(!pq.empty()){
+            ListNode* top = pq.top();
+            pq.pop();
+
+            head->next = top;
+            head = top;
+
+            if(top->next != 0){
+                pq.push(top->next);
+            }
+        }
+        return ansHead->next;
+    }
+};
