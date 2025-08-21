@@ -1,0 +1,66 @@
+class Solution {
+  public:
+  
+    int signum(int a,int b){
+        if(a == b) return 0;
+        if(a > b) return 1;
+        if(a < b) return -1;
+    }
+    void findMedian(priority_queue<int> &maxHeap,priority_queue<int,vector<int>,greater<int>> &minHeap,int element,double &median){
+        
+        switch(signum(minHeap.size(),maxHeap.size())){
+            case 0:
+                if(element>median){
+                    minHeap.push(element);
+                    median = minHeap.top();
+                }
+                else{
+                    maxHeap.push(element);
+                    median = maxHeap.top();
+                }
+                break;
+            
+            case 1:
+                if(element > median){
+                    int minTop = minHeap.top();
+                    minHeap.pop();
+                    maxHeap.push(minTop);
+                    minHeap.push(element);
+                    median = (minHeap.top()+maxHeap.top())/2.0;
+                }
+                else{
+                    maxHeap.push(element);
+                    median = (minHeap.top()+maxHeap.top())/2.0;
+                }
+                break;
+            
+            case -1:
+                if(element > median){
+                    minHeap.push(element);
+                    median = (minHeap.top()+maxHeap.top())/2.0;
+                }
+                else{
+                    int maxTop = maxHeap.top();
+                    maxHeap.pop();
+                    minHeap.push(maxTop);
+                    maxHeap.push(element);
+                    median = (minHeap.top()+maxHeap.top())/2.0;
+                }
+                break;
+                
+        }
+        
+        
+    }
+    vector<double> getMedian(vector<int> &arr) {
+        vector<double> ans;
+        priority_queue<int> maxHeap;
+        priority_queue<int,vector<int>,greater<int>> minHeap;
+        double median = 0.0;
+        for(auto i:arr){
+            findMedian(maxHeap,minHeap,i,median);
+            ans.push_back(median);
+        }
+        return ans;
+    }
+};
